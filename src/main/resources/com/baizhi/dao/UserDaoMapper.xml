@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.UserDAO">
+
+    <sql id="querySql">
+        id,photo,name,nickName,sex,city,password,salt,status,sign,phone,crea_date,gurud_id
+    </sql>
+
+    <select id="showAll" resultType="User">
+        select <include refid="querySql"/> from t_user limit ${(page-1)*rows},#{rows}
+    </select>
+    <select id="selectCount" resultType="Integer">
+        select count(id) from t_user
+    </select>
+    <insert id="addUser">
+        insert into t_user (id,photo,name,nickName,sex,city,password,salt,status,sign,phone,crea_date,gurud_id) values (#{id},#{photo},#{name},#{nickName},#{sex},#{city},#{password},#{salt},#{status},#{sign},#{phone},#{crea_date},#{gurud_id})
+    </insert>
+
+    <update id="editUser">
+        update t_user
+        <set>
+            <if test="photo!=null">photo=#{photo},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="nickName!=null">nickName=#{nickName},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="city!=null">city=#{city},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="salt!=null">salt=#{salt},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="sign!=null">sign=#{sign},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="crea_date!=null">crea_date=#{crea_date},</if>
+            <if test="gurud_id!=null">gurud_id=#{gurud_id},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delUser">
+        delete from t_user where id=#{id}
+    </delete>
+
+    <select id="selectById" resultType="User">
+        select <include refid="querySql" /> from t_user where id=#{rowId}
+    </select>
+
+    <select id="searchAll" resultType="User">
+        select * from t_user
+    </select>
+
+</mapper>

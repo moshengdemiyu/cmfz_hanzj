@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ChapterDAO">
+
+    <sql id="querySql">
+        id,name,url,size,duration,up_date,album_id
+    </sql>
+
+    <select id="showAll" resultType="Chapter">
+        select <include refid="querySql"/> from t_Chapter where album_id=#{albumId} limit ${(page-1)*rows},#{rows}
+    </select>
+    <select id="selectCount" resultType="Integer">
+        select count(id) from t_Chapter
+    </select>
+    <insert id="addChapter">
+        insert into t_Chapter (id,name,url,size,duration,up_date,album_id) values (#{id},#{name},#{url},#{size},#{duration},#{up_date},#{album_id})
+    </insert>
+
+    <update id="editChapter">
+        update t_Chapter
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="url!=null and url!=''">
+                url=#{url},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date},
+            </if>
+            <if test="album_id!=null">
+                album_id=#{album_id}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delChapter">
+        delete from t_Chapter where id=#{id}
+    </delete>
+</mapper>

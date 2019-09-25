@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.EchartsDAO">
+
+    <!--sex传入性别，根据时间分组，返回月份对应的人数-->
+    <select id="selectMonth" resultType="String">
+        select concat(month(crea_date),'月') as month from t_user group by month(crea_date)
+    </select>
+
+    <select id="selectBySexAndMon" resultType="Integer">
+        select count(*) as count from t_user where sex = #{sex} and concat(month(crea_date),'月') = #{month}
+    </select>
+
+    <select id="queryCityBySex" resultType="City">
+        select city name,count(*) as value from t_user where sex=#{sex} group by city
+    </select>
+
+</mapper>

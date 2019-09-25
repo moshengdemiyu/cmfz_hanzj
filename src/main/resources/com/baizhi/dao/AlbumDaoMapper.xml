@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+
+    <sql id="querySql">
+      id,title,cover,author,score,broadcast,count,content,crea_date
+    </sql>
+
+    <select id="showAll" resultType="Album">
+        select <include refid="querySql"/> from t_Album limit ${(page-1)*rows},#{rows}
+    </select>
+    <select id="selectCount" resultType="Integer">
+        select count(id) from t_Album
+    </select>
+    <insert id="addAlbum">
+        insert into t_Album (id,title,cover,author,score,broadcast,count,content,crea_date) values (#{id},#{title},#{cover},#{author},#{score},#{broadcast},#{count},#{content},#{crea_date})
+    </insert>
+
+    <update id="editAlbum">
+        update t_Album
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="cover!=null and cover!=''">
+                cover=#{cover},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="score!=null">
+                score=#{score},
+            </if>
+            <if test="broadcast!=null">
+                broadcast=#{broadcast},
+            </if>
+            <if test="count!=null">
+                count=#{count},
+            </if>
+            <if test="content!=null">
+                content=#{content}
+            </if>
+            <if test="crea_date!=null">
+                crea_date=#{crea_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delAlbum">
+        delete from t_Album where id=#{id}
+    </delete>
+</mapper>
